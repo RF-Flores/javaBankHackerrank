@@ -1,7 +1,5 @@
 package banking;
 
-import java.util.Objects;
-
 /**
  * The concrete Account holder of Person type.
  */

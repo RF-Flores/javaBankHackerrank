@@ -1,5 +1,6 @@
 package banking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public class CommercialAccount extends Account{
 
     public CommercialAccount(Company company, Long accountNumber, int pin, double startingDeposit) {
         super(company,accountNumber,pin,startingDeposit);
+        authorizedUsers = new ArrayList<>();
     }
 
     /**

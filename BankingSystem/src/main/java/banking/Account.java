@@ -33,11 +33,12 @@ public abstract class Account implements AccountInterface {
     }
 
     public void creditAccount(double amount) {
-        //TODO
+        balance += amount;
     }
 
     public boolean debitAccount(double amount) {
-        // TODO: complete the method
-        return false;
+        if(amount <= 0) return false;
+        balance -= amount;
+        return true;
     }
 }
