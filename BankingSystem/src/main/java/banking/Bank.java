@@ -1,7 +1,6 @@
 package banking;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Bank implementation.
@@ -44,9 +43,8 @@ public class Bank implements BankInterface {
 
     public boolean debit(Long accountNumber, double amount) {
         Account account = getAccount(accountNumber);
-        if(account == null && account.getBalance() <= 0) return false;
-        account.debitAccount(amount);
-        return true;
+        if(account == null) return false;
+        return account.debitAccount(amount);
     }
 
     public boolean authenticateUser(Long accountNumber, int pin) {
@@ -74,10 +72,11 @@ public class Bank implements BankInterface {
     }
 
     private Long generateAccountNumber() {
-        Long accountNumber = ThreadLocalRandom.current().nextLong();
-        while(accounts.containsKey(accountNumber)) {
-            accountNumber = ThreadLocalRandom.current().nextLong();
-        }
-        return accountNumber;
+        if(accounts.isEmpty()) return 1L;
+        return accounts.entrySet().stream()
+                .reduce((first,second) -> second)
+                .orElse(null)
+                .getValue()
+                .getAccountNumber() +1;
     }
 }
