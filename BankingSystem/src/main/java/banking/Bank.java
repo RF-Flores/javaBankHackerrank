@@ -1,8 +1,6 @@
 package banking;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The Bank implementation.
@@ -11,16 +9,16 @@ public class Bank implements BankInterface {
     private LinkedHashMap<Long, Account> accounts;
 
     public Bank() {
-        // TODO: complete the constructor
     }
 
     private Account getAccount(Long accountNumber) {
-        // TODO: complete the method
-        return null;
+        //should it return null?
+        return accounts.get(accountNumber);
     }
 
     public Long openCommercialAccount(Company company, int pin, double startingDeposit) {
-        // TODO: complete the method
+        Long accountNumber = new Random().nextLong();
+
         return -1L;
     }
 

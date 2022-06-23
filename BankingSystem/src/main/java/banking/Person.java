@@ -1,23 +1,35 @@
 package banking;
 
+import java.util.Objects;
+
 /**
  * The concrete Account holder of Person type.
  */
-public class Person {
+public class Person extends AccountHolder {
     private String firstName;
     private String lastName;
 
     public Person(String firstName, String lastName, int idNumber) {
-        // TODO: complete the constructor
+        super(idNumber);
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getFirstName() {
-        // TODO: complete the method
-        return null;
+        return firstName;
     }
 
     public String getLastName() {
-        // TODO: complete the method
-        return null;
+        return lastName;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Person otherPerson = (Person) other;
+        return this.firstName.equals(otherPerson.firstName)
+                && this.lastName.equals(otherPerson.lastName)
+                && this.getIdNumber() == otherPerson.getIdNumber();
     }
 }
