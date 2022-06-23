@@ -37,7 +37,9 @@ public abstract class Account implements AccountInterface {
     }
 
     public boolean debitAccount(double amount) {
-        if(amount <= 0) return false;
+        if(balance - amount <= 0) {
+            return false;
+        }
         balance -= amount;
         return true;
     }
