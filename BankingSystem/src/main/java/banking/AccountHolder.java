@@ -1,7 +1,5 @@
 package banking;
 
-import java.util.Objects;
-
 /**
  * Abstract Account Holder.
  */

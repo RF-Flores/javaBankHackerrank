@@ -1,12 +1,13 @@
 package banking;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Bank implementation.
  */
 public class Bank implements BankInterface {
-    private LinkedHashMap<Long, Account> accounts;
+    private final LinkedHashMap<Long, Account> accounts = new LinkedHashMap<>();
 
     public Bank() {
     }
@@ -17,46 +18,66 @@ public class Bank implements BankInterface {
     }
 
     public Long openCommercialAccount(Company company, int pin, double startingDeposit) {
-        Long accountNumber = new Random().nextLong();
-
-        return -1L;
+        long accountNumber = generateAccountNumber();
+        CommercialAccount newCommAccount = new CommercialAccount(company,accountNumber,pin,startingDeposit);
+        accounts.put(accountNumber,newCommAccount);
+        return accountNumber;
     }
 
     public Long openConsumerAccount(Person person, int pin, double startingDeposit) {
-        // TODO: complete the method
-        return -1L;
+        long accountNumber = generateAccountNumber();
+        ConsumerAccount newConsumerAccount = new ConsumerAccount(person,accountNumber,pin,startingDeposit);
+        accounts.put(accountNumber,newConsumerAccount);
+        return accountNumber;
     }
 
     public double getBalance(Long accountNumber) {
-        // TODO: complete the method
-        return -1;
+        Account account = getAccount(accountNumber);
+        return account == null ? 0 : account.getBalance(); //should it return 0?
     }
 
     public void credit(Long accountNumber, double amount) {
-        // TODO: complete the method
+        Account account = getAccount(accountNumber);
+        if(account == null) return;
+        account.creditAccount(amount);
     }
 
     public boolean debit(Long accountNumber, double amount) {
-        // TODO: complete the method
-        return false;
+        Account account = getAccount(accountNumber);
+        if(account == null && account.getBalance() <= 0) return false;
+        account.debitAccount(amount);
+        return true;
     }
 
     public boolean authenticateUser(Long accountNumber, int pin) {
-        // TODO: complete the method
-        return false;
+        Account account = getAccount(accountNumber);
+        if(account == null) return false;
+        return account.validatePin(pin);
     }
     
     public void addAuthorizedUser(Long accountNumber, Person authorizedPerson) {
-        // TODO: complete the method
+        Account account = getAccount(accountNumber);
+        if(account == null && account.getClass() == CommercialAccount.class) return;
+        CommercialAccount commercialAccount = (CommercialAccount) account;
+        commercialAccount.addAuthorizedUser(authorizedPerson);
     }
 
     public boolean checkAuthorizedUser(Long accountNumber, Person authorizedPerson) {
-        // TODO: complete the method
-        return false;
+        Account account = getAccount(accountNumber);
+        if(account == null && account.getClass() == CommercialAccount.class) return false;
+        CommercialAccount commercialAccount = (CommercialAccount) account;
+        return commercialAccount.isAuthorizedUser(authorizedPerson);
     }
 
     public Map<String, Double> getAverageBalanceReport() {
-        // TODO: complete the method
         return new HashMap<>();
+    }
+
+    private Long generateAccountNumber() {
+        Long accountNumber = ThreadLocalRandom.current().nextLong();
+        while(accounts.containsKey(accountNumber)) {
+            accountNumber = ThreadLocalRandom.current().nextLong();
+        }
+        return accountNumber;
     }
 }

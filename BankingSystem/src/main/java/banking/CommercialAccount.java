@@ -7,7 +7,7 @@ import java.util.List;
  * Account implementation for commercial (business) customers.
  * The account's holder is a {@link Company}.
  */
-public class CommercialAccount extends Account{
+public class CommercialAccount extends Account {
     private List<Person> authorizedUsers;
 
     public CommercialAccount(Company company, Long accountNumber, int pin, double startingDeposit) {

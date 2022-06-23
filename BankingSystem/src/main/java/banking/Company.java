@@ -1,7 +1,5 @@
 package banking;
 
-import java.util.Objects;
-
 public class Company extends AccountHolder {
 	private String companyName;
 
